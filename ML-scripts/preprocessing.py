@@ -53,6 +53,10 @@ def main():
 
     with mlflow.start_run(run_name="preprocessing"):
 
+        run_id = run.info.run_id
+        with open("/tmp/run_id.txt", "w") as f:
+            f.write(run_id)
+
         df = load_data_from_s3(args.bucket_name, args.filename)
 
         target_col = "math score"

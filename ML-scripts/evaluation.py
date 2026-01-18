@@ -63,6 +63,10 @@ def main():
     mlflow.set_experiment("students-performance")
 
     with mlflow.start_run(run_name="evaluation") as eval_run:
+
+        run_id = run.info.run_id
+        with open("/tmp/run_id.txt", "w") as f:
+            f.write(run_id)
     
         client = MlflowClient()
     
