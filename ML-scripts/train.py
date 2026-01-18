@@ -60,12 +60,15 @@ def main():
 
     with mlflow.start_run(run_name="training") as parent_run:
 
-        # ---- Load data
+        mlflow.set_tag("pipeline_stage", "training")
+        mlflow.set_tag("preprocessing_run_id", args.preprocessing_run_id)
+    
+        mlflow.set_tag("data_source", "preprocessed_artifact")
+    
         X_train, X_val, y_train, y_val = load_preprocessed_data(
             args.preprocessing_run_id
         )
 
-        # ---- Model zoo
         models = {
             "LinearRegression": LinearRegression(),
             "RandomForest": RandomForestRegressor(
