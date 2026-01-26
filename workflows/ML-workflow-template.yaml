@@ -106,6 +106,9 @@ spec:
       command: ["bash", "-c"]
       args:
         - python {{inputs.parameters.script}} {{inputs.parameters.cli-args}}
+      envFrom:
+        - configMapRef:
+            name: mlops-runtime-config
       env:
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
@@ -130,24 +133,6 @@ spec:
             secretKeyRef:
               name: postgres-admin
               key: postgres-password
-
-        - name: MLFLOW_S3_ENDPOINT_URL
-          value: "http://minio.data-storage.svc.cluster.local:9000"
-
-        - name: MLFLOW_TRACKING_URI
-          value: "http://mlflow.mlops.svc.cluster.local:5000"
-
-        - name: AWS_DEFAULT_REGION
-          value: "us-east-1"
-
-        - name: POSTGRES_HOST
-          value: "postgres-postgresql.data-storage.svc.cluster.local"
-
-        - name: POSTGRES_PORT
-          value: "5432"
-
-        - name: POSTGRES_DB
-          value: "ds_db"
 
   # ----------------------
   # Preprocessing step
@@ -163,6 +148,9 @@ spec:
       command: ["bash", "-c"]
       args:
         - python {{inputs.parameters.script}} {{inputs.parameters.cli-args}}
+      envFrom:
+        - configMapRef:
+            name: mlops-runtime-config
       env:
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
@@ -184,18 +172,6 @@ spec:
             secretKeyRef:
               name: postgres-admin
               key: postgres-password
-        - name: MLFLOW_S3_ENDPOINT_URL
-          value: "http://minio.data-storage.svc.cluster.local:9000"
-        - name: MLFLOW_TRACKING_URI
-          value: "http://mlflow.mlops.svc.cluster.local:5000"
-        - name: AWS_DEFAULT_REGION
-          value: "us-east-1"
-        - name: POSTGRES_HOST
-          value: "postgres-postgresql.data-storage.svc.cluster.local"
-        - name: POSTGRES_PORT
-          value: "5432"
-        - name: POSTGRES_DB
-          value: "ds_db"
     outputs:
       parameters:
         - name: preprocessing-run-id
@@ -216,6 +192,9 @@ spec:
       command: ["bash", "-c"]
       args:
         - python {{inputs.parameters.script}} {{inputs.parameters.cli-args}}
+      envFrom:
+        - configMapRef:
+            name: mlops-runtime-config
       env:
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
@@ -237,18 +216,6 @@ spec:
             secretKeyRef:
               name: postgres-admin
               key: postgres-password
-        - name: MLFLOW_S3_ENDPOINT_URL
-          value: "http://minio.data-storage.svc.cluster.local:9000"
-        - name: MLFLOW_TRACKING_URI
-          value: "http://mlflow.mlops.svc.cluster.local:5000"
-        - name: AWS_DEFAULT_REGION
-          value: "us-east-1"
-        - name: POSTGRES_HOST
-          value: "postgres-postgresql.data-storage.svc.cluster.local"
-        - name: POSTGRES_PORT
-          value: "5432"
-        - name: POSTGRES_DB
-          value: "ds_db"
     outputs:
       parameters:
         - name: training-run-id
